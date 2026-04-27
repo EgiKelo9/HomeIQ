@@ -1,0 +1,45 @@
+import type { Metadata } from "next";
+import { Geist, Geist_Mono } from "next/font/google";
+import "./globals.css";
+import { Toaster } from "sonner";
+
+const geistSans = Geist({
+  variable: "--font-geist-sans",
+  subsets: ["latin"],
+});
+
+const geistMono = Geist_Mono({
+  variable: "--font-geist-mono",
+  subsets: ["latin"],
+});
+
+export const metadata: Metadata = {
+  title: "HomeIQ",
+  description: "House Price Analytics and Prediction Tool",
+};
+
+export default function RootLayout({
+  children,
+}: Readonly<{
+  children: React.ReactNode;
+}>) {
+  return (
+    <html lang="en" suppressHydrationWarning>
+      <body
+        suppressHydrationWarning
+        className={`${geistSans.variable} ${geistMono.variable} antialiased`}
+      >
+        <Toaster position='top-right' richColors toastOptions={{
+          duration: 3000, style: {
+            fontFamily: 'var(--font-geist-sans)',
+            fontSize: 'var(--text-sm)',
+            backgroundColor: 'var(--background)',
+            color: 'var(--foreground)',
+            borderColor: 'var(--border)',
+          }
+        }} />
+        {children}
+      </body>
+    </html>
+  );
+}
