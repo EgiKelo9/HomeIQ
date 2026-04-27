@@ -275,4 +275,4 @@ Setiap listing rumah hasil scraper umumnya memuat field seperti:
 
 ## Lisensi
 
-Belum ditentukan.
+Aryadana Baraja Putra 2026.
