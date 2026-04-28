@@ -5,6 +5,7 @@ class ModelMetrics(BaseModel):
     r2_score: float
     rmse: float
     mae: float
+    silhouette_score: float
     last_trained: str
 
 class FeatureImportance(BaseModel):

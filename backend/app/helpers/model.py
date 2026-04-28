@@ -2,7 +2,7 @@ import os
 import logging
 import pandas as pd
 from pathlib import Path
-from app.ml_pipeline.train import ModelTrainer
+from app.ml_pipeline.train import ModelTrainer, ClusterTrainer
 
 logger = logging.getLogger(__name__)
 
@@ -46,14 +46,17 @@ def _execute_training(MODELS_DIR: Path, DATA_DIR: Path):
         logger.info("Memulai load dataset untuk training...")
         df = _load_dataset(DATA_DIR)
         
+        # 1. Train Random Forest (Regression)
         logger.info("Dataset berhasil dimuat. Menginisialisasi ModelTrainer...")
         trainer = ModelTrainer(models_dir=str(MODELS_DIR))
-        
-        logger.info("Menjalankan pipeline training (Clean, Encode, Split, Scale, Train)...")
         trainer.train(df)
-        
-        logger.info("Mengekspor artefak model ke disk...")
         trainer.export_artifacts()
+        
+        # 2. Train K-Means (Clustering)
+        logger.info("Menginisialisasi K-Means Clustering...")
+        cluster_trainer = ClusterTrainer(models_dir=str(MODELS_DIR))
+        cluster_trainer.train(df, max_clusters=6) # Otomatis cari K terbaik dari 2 s.d 6
+        cluster_trainer.export_artifacts()
         
         TRAINING_STATE["status"] = "SUCCESS"
         TRAINING_STATE["message"] = "Training berhasil diselesaikan."

@@ -15,7 +15,7 @@ MODELS_DIR = _THIS_DIR.parent / "models"
 @router.post("/train", response_model=TrainResponse)
 def trigger_training(background_tasks: BackgroundTasks):
     """
-    Memicu proses pelatihan model Random Forest. 
+    Memicu proses pelatihan model Random Forest dan KMeans Clustering. 
     Proses berjalan di background dan memerlukan beberapa saat.
     """
     global TRAINING_STATE
