@@ -395,6 +395,7 @@ export default function Page() {
             <Card>
               <CardHeader>
                 <CardTitle>Riwayat Prediksi</CardTitle>
+                <CardDescription>Daftar riwayat prediksi harga rumah yang telah dilakukan.</CardDescription>
               </CardHeader>
               <CardContent>
                 {history.length === 0 ? (
