@@ -103,6 +103,7 @@ export interface ModelMetrics {
     r2_score: number;
     rmse: number;
     mae: number;
+    silhouette_score?: number;
     last_trained: string;
 }
 

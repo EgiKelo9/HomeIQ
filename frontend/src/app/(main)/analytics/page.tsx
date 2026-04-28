@@ -104,18 +104,24 @@ export default function Page() {
     <>
       <AppHeader breadcrumbs={breadcrumbs} />
       <div className="flex flex-1 flex-col gap-6 p-4 pt-2 w-full mx-auto">
-        <Heading title="Analytics" description="Analisis data properti terbaru." />
+        <div className="flex w-full gap-4 justify-between items-center">
+          <Heading title="Analytics" description="Analisis data properti terbaru." />
+          <div className="text-right text-xs text-muted-foreground">
+            <p>Model Terakhir Dilatih:</p>
+            <p className="font-medium text-foreground">{isLoading ? "Memuat..." : formatDate(metrics?.last_trained)}</p>
+          </div>
+        </div>
         {/* Top Metrics Cards */}
-        <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
+        <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
           <Card>
             <CardHeader className="pb-2">
               <CardDescription>Akurasi Model (R² Score)</CardDescription>
-              <CardTitle className="text-3xl text-primary">
+              <CardTitle className="text-2xl text-primary">
                 {isLoading ? <Skeleton className="h-9 w-24" /> : `${((metrics?.r2_score || 0) * 100).toFixed(2)}%`}
               </CardTitle>
             </CardHeader>
             <CardContent className="text-xs text-muted-foreground">
-              Model mampu menjelaskan {((metrics?.r2_score || 0) * 100).toFixed(1)}% variansi harga.
+              Model mampu menjelaskan {((metrics?.r2_score || 0) * 100).toFixed(2)}% variansi harga.
             </CardContent>
           </Card>
           <Card>
@@ -135,6 +141,15 @@ export default function Page() {
               </CardTitle>
             </CardHeader>
             <CardContent className="text-xs text-muted-foreground">Penalti lebih besar untuk error ekstrem.</CardContent>
+          </Card>
+          <Card>
+            <CardHeader className="pb-2">
+              <CardDescription>Silhouette Score</CardDescription>
+              <CardTitle className="text-2xl">
+                {isLoading ? <Skeleton className="h-8 w-32" /> : `${((metrics?.silhouette_score || 0)).toFixed(4)}`}
+              </CardTitle>
+            </CardHeader>
+            <CardContent className="text-xs text-muted-foreground">Skor yang menggambarkan kualitas clustering.</CardContent>
           </Card>
         </div>
 
@@ -167,8 +182,8 @@ export default function Page() {
                     <ChartContainer config={chartConfigDistCount} className="h-80 w-full">
                       <BarChart accessibilityLayer data={distribution} margin={{ top: 10, right: 10, left: -20, bottom: 0 }}>
                         <CartesianGrid strokeDasharray="3 3" vertical={false} />
-                        <XAxis dataKey="city" tickLine={false} axisLine={false} tickMargin={8} tick={{ fontSize: 11 }} angle={-15} textAnchor="end" height={60} />
-                        <YAxis tickLine={false} axisLine={false} tickMargin={8} tick={{ fontSize: 12 }} />
+                        <XAxis dataKey="city" tickLine={false} axisLine={false} tickMargin={4} tick={{ fontSize: 11 }} angle={-22.5} textAnchor="end" height={60} />
+                        <YAxis tickLine={false} axisLine={false} tickMargin={4} tick={{ fontSize: 11 }} />
                         <ChartTooltip cursor={false} content={<ChartTooltipContent />} />
                         <Bar dataKey="count" fill="var(--color-count)" radius={[4, 4, 0, 0]} />
                       </BarChart>
@@ -187,8 +202,8 @@ export default function Page() {
                     <ChartContainer config={chartConfigDistPrice} className="h-80 w-full">
                       <BarChart accessibilityLayer data={distribution} margin={{ top: 10, right: 10, left: -10, bottom: 0 }}>
                         <CartesianGrid strokeDasharray="3 3" vertical={false} />
-                        <XAxis dataKey="city" tickLine={false} axisLine={false} tickMargin={8} tick={{ fontSize: 11 }} angle={-15} textAnchor="end" height={60} />
-                        <YAxis tickLine={false} axisLine={false} tickMargin={8} tick={{ fontSize: 12 }} tickFormatter={(value) => `${Math.round(value)} JT`} />
+                        <XAxis dataKey="city" tickLine={false} axisLine={false} tickMargin={4} tick={{ fontSize: 11 }} angle={-22.5} textAnchor="end" height={60} />
+                        <YAxis tickLine={false} axisLine={false} tickMargin={4} tick={{ fontSize: 11 }} tickFormatter={(value) => `${Math.round(value) / 1000} M`} />
                         <ChartTooltip cursor={false} content={<ChartTooltipContent indicator="line" />} />
                         <Bar dataKey="avg_price" fill="var(--color-avg_price)" radius={[4, 4, 0, 0]} />
                       </BarChart>

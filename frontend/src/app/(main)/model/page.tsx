@@ -358,7 +358,7 @@ export default function Page() {
             <Card>
               <CardHeader>
                 <CardTitle>Training Model</CardTitle>
-                <CardDescription>Latih ulang model Random Forest di background.</CardDescription>
+                <CardDescription>Latih ulang model Random Forest dan KMeans di background.</CardDescription>
               </CardHeader>
               <CardContent className="space-y-4">
                 <div className="flex items-center justify-between p-5 border rounded-lg bg-muted/30">
